@@ -98,8 +98,7 @@ public class UnitTest {
 		
 		if(unsortedList.size() != sortedList.size()){
 			return false;
-		}
-		else{
+		}else{
 			for(int i=0; i<unsortedList.size(); i++){
 				if(!unsortedList.get(i).equals(sortedList.get(i))){
 					return false;
