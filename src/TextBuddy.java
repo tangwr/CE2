@@ -89,6 +89,7 @@ public class TextBuddy {
 	
 	/**
 	 * Add a string of text into the text file
+	 * @return the line added message which is printed out
 	 */
 	public static String add(String text, String fileName){		
 		
@@ -101,6 +102,7 @@ public class TextBuddy {
 	
 	/**
 	 * Display all the content of a specific text file
+	 * @return the ArrayList used to store the display output
 	 */
 	public static ArrayList<String> display(String fileName){
 		
@@ -115,7 +117,8 @@ public class TextBuddy {
 	}
 	
 	/**
-	 * Delete the nth line in the specfic text file
+	 * Delete the nth line in the specific text file
+	 * @return the deleted line printed out
 	 */
 	public static String delete(String line, String fileName){
 		
@@ -216,6 +219,7 @@ public class TextBuddy {
 	
 	/**
 	 * Delete all the content of the specific text file
+	 * @return the string message printed out
 	 */
 	public static String clear(String fileName){
 		try {
@@ -236,6 +240,7 @@ public class TextBuddy {
 	
 	/**
 	 * Read the specific textfile and print out all the text in it
+	 * @return ArrayList which stores the data of the read file
 	 */
 	public static ArrayList<String> readFile(String fileName){
 		// This will reference one line at a time
@@ -342,6 +347,9 @@ public class TextBuddy {
         }
 	}
 	
+	/**
+	 * Sort the given file in ascending order
+	 */
 	public static void sort(String fileName){
 		ArrayList<String> sortedList = readFile(fileName);
 		
@@ -366,6 +374,10 @@ public class TextBuddy {
 		
 	}
 	
+	/**
+	 * Search the text file for lines which contains a keyword
+	 * @return the ArrayList of the lines which matching the keyword
+	 */
 	public static ArrayList<String> search(String text, String fileName){
 		ArrayList<String> list = readFile(fileName);
 		ArrayList<String> searchList = new ArrayList<String>();
@@ -381,18 +393,39 @@ public class TextBuddy {
 		return searchList;
 	}
 	
-	//Function for unit testing.
+	/**
+	 * Class for TextBuddy to assign a fileName
+	 * This function is use for unit testing in UnitTest.java
+	 */
 	public TextBuddy(String fileName){
 		testFileName = fileName;
 	}
 	
-	
+	/**
+	 * @return the file name of file
+	 */
 	public String getFileName(){
 		return testFileName;
 	}
 	
-	public ArrayList<String> getReadFile(String fileName){
-		return readFile(fileName);
-	}
+	/**
+	 * This function is use for unit testing in UnitTest.java
+	 * @return printed string of the respective command
+	 */
+	public String executeCommand(String command, String moreInput, String fileName){
+		switch(command){
+			case "add": 
+				return add(moreInput, fileName);
 	
+			case "delete": 
+				return delete(moreInput, fileName);
+			
+			case "clear": 
+				return clear(fileName);
+		
+			default: 
+				return null;
+		}
+	}
+		
 }
