@@ -8,6 +8,8 @@ import java.io.*;
 
 public class TextBuddy {
 	
+	private String testFileName; 
+	
 	public static void main(String args[]){
 		enterCommand(args);
 	}
@@ -34,8 +36,8 @@ public class TextBuddy {
 	}
 	
 	/**
-	 * Execute the selected command, retur
-	 * @return true if user enter all command except exit, false if exit commannd is issue
+	 * Execute the selected command, return
+	 * @return true if user enter all command except exit, false if exit command is issue
 	 */
 	public static boolean command(String input, String moreInput, String fileName){		
 		
@@ -88,16 +90,19 @@ public class TextBuddy {
 	/**
 	 * Add a string of text into the text file
 	 */
-	public static void add(String text, String fileName){		
+	public static String add(String text, String fileName){		
 		
 		writeFile(text, fileName);
-		System.out.println("added to " + fileName + ": \"" + text + "\"");		
+		String addedLine = "added to " + fileName + ": \"" + text + "\"";
+		System.out.println("added to " + fileName + ": \"" + text + "\"");	
+		
+		return addedLine;
 	}
 	
 	/**
 	 * Display all the content of a specific text file
 	 */
-	public static void display(String fileName){
+	public static ArrayList<String> display(String fileName){
 		
 		ArrayList<String> displayList = readFile(fileName);
 		int count = 0;
@@ -105,26 +110,35 @@ public class TextBuddy {
 		for(String eachLine : displayList){
 			System.out.println(++count + ". " +eachLine);
 		}
+		
+		return displayList;
 	}
 	
 	/**
 	 * Delete the nth line in the specfic text file
 	 */
-	public static void delete(String line, String fileName){
+	public static String delete(String line, String fileName){
+		
+		String lineDeleted;
+		
 		try{
 			int numLine = Integer.parseInt(line);
 			
 			if(isValidNumLine(numLine, fileName)){
+				lineDeleted = "Invalid line number";
 				System.out.println("Invalid line number");
 			}else{
 				String deletedLine = findLine(numLine, fileName);
 				deleteLine(numLine, fileName);
+				lineDeleted = "deleted from " + fileName + ": \"" + deletedLine + "\"";
 				System.out.println("deleted from " + fileName + ": \"" + deletedLine + "\"");
 			}
 		}catch(NumberFormatException e){
+			lineDeleted = "Invalid line number";
 			System.out.println("Invalid line number");
 		}
 		
+		return lineDeleted;
 	}
 	
 	/**
@@ -203,7 +217,7 @@ public class TextBuddy {
 	/**
 	 * Delete all the content of the specific text file
 	 */
-	public static void clear(String fileName){
+	public static String clear(String fileName){
 		try {
             FileWriter fileWriter = new FileWriter(fileName);
 			
@@ -211,8 +225,12 @@ public class TextBuddy {
             fileWriter.close();
 			
 			System.out.println("all content deleted from " + fileName);
+			
+			return "all content deleted from " + fileName;
         } catch(IOException ex) {
             System.out.println("Error writing to file '" + fileName + "'");
+            
+            return "Error writing to file '" + fileName + "'";
         }		
 	}
 	
@@ -324,8 +342,7 @@ public class TextBuddy {
         }
 	}
 	
-	public static void sort(String fileName)
-	{
+	public static void sort(String fileName){
 		ArrayList<String> sortedList = readFile(fileName);
 		
 		try {
@@ -349,20 +366,33 @@ public class TextBuddy {
 		
 	}
 	
-	public static void search(String text, String fileName)
-	{
+	public static ArrayList<String> search(String text, String fileName){
 		ArrayList<String> list = readFile(fileName);
+		ArrayList<String> searchList = new ArrayList<String>();
 		int count = 0;
 		
 		for(String eachLine : list){
 			if(eachLine.contains(text)){			
-				//searchList.add(eachLine);
+				searchList.add(eachLine);
 				System.out.println(++count + "." + eachLine);
 			}
 		}
 		
-
-		
+		return searchList;
+	}
+	
+	//Function for unit testing.
+	public TextBuddy(String fileName){
+		testFileName = fileName;
+	}
+	
+	
+	public String getFileName(){
+		return testFileName;
+	}
+	
+	public ArrayList<String> getReadFile(String fileName){
+		return readFile(fileName);
 	}
 	
 }
